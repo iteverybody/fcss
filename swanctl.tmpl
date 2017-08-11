@@ -1,0 +1,35 @@
+
+connections {
+    gw-gw {
+        version = 2
+        local_addrs = FEXT_IP
+        remote_addrs = DEMUX_IP
+        local {
+            auth = psk
+            id = FEXT_ID
+        }
+        remote {
+            id = %any
+            auth = psk
+        }
+        children {
+            net-net {
+                local_ts = FEXT_SUBNET
+                remote_ts = 0.0.0.0/0
+                rekey_time = 87600000h
+                life_time = 96360000h
+                rand_time = 8760000h
+                mode = tunnel
+                dpd_action = clear
+            }
+        }
+    }
+}
+
+secrets {
+    ike-DEMUX_IP {
+        id = DEMUX_IP
+        secret = FEXT_PSK
+    }
+}
+
